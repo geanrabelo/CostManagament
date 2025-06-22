@@ -7,6 +7,7 @@ import java.util.Map;
 
 public record UserCalculateCostDTO(String name,
                                    Map<Category, BigDecimal> map,
-                                   BigDecimal totalCost)
+                                   BigDecimal totalCost,
+                                   BigDecimal yourMoney)
 {
 }

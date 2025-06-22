@@ -93,6 +93,7 @@ public class UserServiceImpl implements UserService {
                 )
         );
         BigDecimal totalCost = map.values().stream().reduce(BigDecimal::add).orElseThrow();
-        return new UserCalculateCostDTO(userDatabase.getName(), map, totalCost);
+        BigDecimal yourMoney = userDatabase.getSalary().subtract(totalCost);
+        return new UserCalculateCostDTO(userDatabase.getName(), map, totalCost, yourMoney);
     }
 }
