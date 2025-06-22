@@ -1,12 +1,14 @@
 package com.br.CostManagement.builder;
 
+import com.br.CostManagement.entity.User;
+
 import java.math.BigDecimal;
 
 public interface UserSpecificationBuilder {
 
-    UserSpecificationBuilder id(Long id);
+    User.UserBuilder id(Long id);
 
-    UserSpecificationBuilder name(String name);
+    User.UserBuilder name(String name);
 
-    UserSpecificationBuilder salary(BigDecimal salary);
+    User.UserBuilder salary(BigDecimal salary);
 }
