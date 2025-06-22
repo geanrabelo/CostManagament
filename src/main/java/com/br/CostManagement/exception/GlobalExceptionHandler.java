@@ -1,6 +1,8 @@
 package com.br.CostManagement.exception;
 
 import com.br.CostManagement.exception.dto.ErrorResponse;
+import com.br.CostManagement.exception.ex.CategoryConflict;
+import com.br.CostManagement.exception.ex.CategoryNotFound;
 import com.br.CostManagement.exception.ex.UserNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,5 +16,17 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse userNotFoundHandler(UserNotFound userNotFound){
         return ErrorResponse.notFound(userNotFound.getMessage());
+    }
+
+    @ExceptionHandler(CategoryNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse categoryNotFoundHandler(CategoryNotFound categoryNotFound){
+        return ErrorResponse.notFound(categoryNotFound.getMessage());
+    }
+
+    @ExceptionHandler(CategoryConflict.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse categoryConflictHandler(CategoryConflict categoryConflict){
+        return ErrorResponse.conflict(categoryConflict.getMessage());
     }
 }
