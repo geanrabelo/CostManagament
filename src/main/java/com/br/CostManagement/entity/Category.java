@@ -25,7 +25,7 @@ public class Category {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static final class CategoryBuilder implements CategorySpecificationBuilder {
+    public static class CategoryBuilder implements CategorySpecificationBuilder {
         private Long id;
         private String name;
         private User user;
