@@ -47,11 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailsDTO findById(Long id) {
-        if(userRepository.existsById(id)){
-            User userDatabase = userRepository.getReferenceById(id);
-            return new UserDetailsDTO(userDatabase);
-        }
-        throw new UserNotFound(EnumCode.USR000.getMessage());
+        return new UserDetailsDTO(userRepository.findById(id).orElseThrow(() -> new UserNotFound(EnumCode.USR000.getMessage())));
     }
 
     @Override
