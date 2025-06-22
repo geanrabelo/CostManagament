@@ -5,13 +5,12 @@ import com.br.CostManagement.entity.Cost;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record CostDetailsDTO(Long id,
-                             String description,
+public record CostDetailsDTO(String description,
                              BigDecimal value,
                              LocalDate date,
-                             Long category_id,
-                             Long user_id) {
+                             String category,
+                             String user) {
     public CostDetailsDTO(Cost cost){
-        this(cost.getId(), cost.getDescription(), cost.getValue(), cost.getDate(), cost.getCategory().getId(), cost.getUser().getId());
+        this(cost.getDescription(), cost.getValue(), cost.getDate(), cost.getCategory().getName(), cost.getUser().getName());
     }
 }
