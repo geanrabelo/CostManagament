@@ -2,24 +2,35 @@ package com.br.CostManagement.service.impl;
 
 import com.br.CostManagement.dto.request.user.UserAddSalaryDTO;
 import com.br.CostManagement.dto.request.user.UserCreateDTO;
+import com.br.CostManagement.dto.response.user.UserCalculateCostDTO;
 import com.br.CostManagement.dto.response.user.UserDetailsDTO;
+import com.br.CostManagement.entity.Category;
+import com.br.CostManagement.entity.Cost;
 import com.br.CostManagement.entity.User;
 import com.br.CostManagement.exception.enums.EnumCode;
 import com.br.CostManagement.exception.ex.UserNotFound;
+import com.br.CostManagement.repository.CategoryRepository;
+import com.br.CostManagement.repository.CostRepository;
 import com.br.CostManagement.repository.UserRepository;
 import com.br.CostManagement.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final CostRepository costRepository;
 
-    public UserServiceImpl(UserRepository userRepository){
+    public UserServiceImpl(UserRepository userRepository, CategoryRepository categoryRepository, CostRepository costRepository){
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
+        this.costRepository = costRepository;
     }
 
     @Override
@@ -32,6 +43,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return "User - "+user.getName()+" /// Salary - R$"+user.getSalary();
     }
+
 
     @Override
     public UserDetailsDTO addSalary(UserAddSalaryDTO userAddSalaryDTO) {
@@ -62,5 +74,25 @@ public class UserServiceImpl implements UserService {
         }else{
             throw new UserNotFound(EnumCode.USR000.getMessage());
         }
+    }
+
+    @Override
+    public UserCalculateCostDTO calculateCost(Long id) {
+        User userDatabase = userRepository.findById(id).orElseThrow(() -> new UserNotFound(EnumCode.USR000.getMessage()));
+        List<Category> categoryList = categoryRepository.findByCategoryWhereUserId(id);
+        Map<Category, BigDecimal> map = categoryList.stream().collect(Collectors.toMap
+                (category -> category,
+                        category -> {
+                            try {
+                                return costRepository.findByCostWhereCategoryId(category.getId())
+                                        .stream().map(Cost::getValue).reduce(BigDecimal::add).orElseThrow(Exception::new);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                )
+        );
+        BigDecimal totalCost = map.values().stream().reduce(BigDecimal::add).orElseThrow();
+        return new UserCalculateCostDTO(userDatabase.getId(), userDatabase.getName(), map, totalCost);
     }
 }
