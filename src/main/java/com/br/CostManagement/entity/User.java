@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "tb_user")
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @EqualsAndHashCode(of = "id")
 public class User {
