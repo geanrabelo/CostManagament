@@ -1,4 +1,6 @@
-package com.br.CostManagement.dto.request;
+package com.br.CostManagement.dto.request.user;
 
-public record UserCreateDTO() {
+import java.math.BigDecimal;
+
+public record UserCreateDTO(String name, BigDecimal salary) {
 }
