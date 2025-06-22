@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: CostManagement
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cost
+    username: postgres
+    password: postgres
