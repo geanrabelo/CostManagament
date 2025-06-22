@@ -9,4 +9,8 @@ public enum EnumCode {
     EnumCode(String message){
         this.message = message;
     }
+
+    public String getMessage(){
+        return this.message;
+    }
 }
