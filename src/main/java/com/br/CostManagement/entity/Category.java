@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "tb_category")
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @EqualsAndHashCode(of = "id")
 public class Category {
