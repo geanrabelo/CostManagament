@@ -1,0 +1,24 @@
+create table tb_user(
+	id SERIAL NOT NULL PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	salary NUMERIC NOT NULL
+);
+create table tb_category(
+	id SERIAL NOT NULL PRIMARY KEY,
+	name VARCHAR(50) NOT NULL,
+	user_id BIGINT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES tb_user(id)
+);
+create table tb_cost(
+	id SERIAL NOT NULL PRIMARY KEY,
+	description VARCHAR(150) NOT NULL,
+	value NUMERIC NOT NULL,
+	date TIMESTAMP NOT NULL,
+	category_id BIGINT NOT NULL,
+	user_id BIGINT NOT NULL,
+	FOREIGN KEY (category_id) REFERENCES tb_category(id),
+	FOREIGN KEY (user_id) REFERENCES tb_user(id)
+);
+select * from tb_user;
+select * from tb_category;
+select * from tb_cost;
