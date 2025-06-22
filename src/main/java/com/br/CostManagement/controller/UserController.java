@@ -3,6 +3,7 @@ package com.br.CostManagement.controller;
 import com.br.CostManagement.dto.request.user.UserAddSalaryDTO;
 import com.br.CostManagement.dto.request.user.UserCreateDTO;
 import com.br.CostManagement.dto.response.MessageDTO;
+import com.br.CostManagement.dto.response.user.UserCalculateCostDTO;
 import com.br.CostManagement.dto.response.user.UserDetailsDTO;
 import com.br.CostManagement.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,11 @@ public class UserController {
     @Transactional
     public ResponseEntity<UserDetailsDTO> addSalary(@RequestBody @Validated UserAddSalaryDTO userAddSalaryDTO){
         return ResponseEntity.ok(userService.addSalary(userAddSalaryDTO));
+    }
+
+    @GetMapping(path = "/calculate")
+    public ResponseEntity<UserCalculateCostDTO> calculateCost(@RequestParam(name = "id") Long id){
+        return ResponseEntity.ok(userService.calculateCost(id));
     }
 
     @GetMapping
